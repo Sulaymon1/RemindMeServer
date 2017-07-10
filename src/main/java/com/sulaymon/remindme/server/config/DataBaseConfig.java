@@ -24,7 +24,7 @@ import java.util.Properties;
  * Created by Sulaymon on 10.07.2017.
  */
 @Configuration
-@EnableJpaRepositories("com.sulaymon.remindme.server.config")
+@EnableJpaRepositories("com.sulaymon.remindme.server.repository")
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
 @ComponentScan("com.sulaymon.remindme.server")
@@ -34,7 +34,7 @@ public class DataBaseConfig {
     private Environment env;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactory(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
@@ -55,9 +55,9 @@ public class DataBaseConfig {
     }
 
     @Bean
-    public PlatformTransactionManager platformTransactionManager(){
+    public PlatformTransactionManager transactionManager(){
         JpaTransactionManager manager = new JpaTransactionManager();
-        manager.setEntityManagerFactory(localContainerEntityManagerFactory().getObject());
+        manager.setEntityManagerFactory(entityManagerFactory().getObject());
         return manager;
     }
 

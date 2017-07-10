@@ -22,7 +22,7 @@ public class Remind {
     private String title;
 
     @Column(name = "remind_date")
-
+    @Temporal(TemporalType.TIMESTAMP)
     private Date remindDate;
 
     public Remind() {
